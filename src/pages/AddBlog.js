@@ -20,13 +20,14 @@ class AddBlog extends Component{
             users:[]
         }
     }
-
+    // this is the first method to be executed as soon as the component gets loaded
     componentDidMount() {
-        axios.get('http://localhost:5000/users/')
+        axios.get('http://localhost:5000/users/')//we are requesting the list of users
           .then(response => {
             if (response.data.length > 0) {
               this.setState({
                 users: response.data.map(user => user.username),
+                //setting the first value to the username
                 username: response.data[0].username
               })
             }
@@ -56,7 +57,7 @@ class AddBlog extends Component{
 
     onSubmit(e){
         e.preventDefault();
-
+        
         const blog={
             username : this.state.username,
             title : this.state.title,
@@ -67,7 +68,16 @@ class AddBlog extends Component{
         console.log(blog);
 
         axios.post('http://localhost:5000/blogs/add',blog).then(res=> console.log(res.data));
-        //window.locationContent';
+
+
+        this.setState({
+            username:'',
+            title:'',
+            content:'',
+            date: new Date(),
+            users:[]
+          })
+
     }
 
     render(){
@@ -80,7 +90,7 @@ class AddBlog extends Component{
                                 <Form.Label className="test-left">User Name</Form.Label>
                                 <Form.Control as="select" value={this.state.username} onChange={this.onChangeUsername}>
                                 {
-                                this.state.users.map(function(user) {
+                                this.state.users.map(user=> {
                                 return <option key={user} value={user}>
                                         {user}
                                     </option>;

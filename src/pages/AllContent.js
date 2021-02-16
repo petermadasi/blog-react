@@ -38,6 +38,7 @@ export default class AllBlogs extends Component {
       .then(response => { console.log(response.data)});
 
     this.setState({
+      //filter method creates another list without the deleted blog and sets the state
       blogs: this.state.blogs.filter(el => el._id !== id)
     })
   }
